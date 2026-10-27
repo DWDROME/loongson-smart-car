@@ -1,0 +1,9 @@
+project/out/
+project/out_verify/
+project/model/
+libraries/
+__pycache__/
+*.pyc
+*.log
+project/code/调车日志.txt
+project/user/tools/params_config.local - 副本.txt

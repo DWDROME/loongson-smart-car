@@ -1,0 +1,86 @@
+# 朋友 2026-07-16 实车参数；写入后必须低速复核。
+# middle_max_out=140 在 base=222、K_turn=2 下仍允许内轮反转，不能视为热保护。
+
+# ===== 1. 基础速度与测试目标 =====
+base_speed=222.0000
+straight_trim=0.0000
+picture_speed=160.0000
+ramp_speed=150.0000
+forward_base=35.0
+middle_test_target=0.0000
+
+# ===== 2. 图片识别与直行保持距离 =====
+picture_recog_k=0.1000
+picture_recog_base=40.0000
+picture_near_dist=30.0000
+picture_side_offset=10.0000
+picture_hold_dist=30.0000
+picture_finish_dist=40.0000
+picture_conf_min=0.5000
+
+# ===== 3. 红色事件分流与立体红砖绕行 =====
+# 两者均为 0：完全关闭红目标处理。单独开启后由 remote 重启生效。
+red_brick_enable=0
+picture_roi_enable=0
+red_route_white_ratio=0.60
+red_route_confirm_frames=2
+red_brick_side_deadband=5
+red_brick_slow_speed=100.0000
+red_brick_speed=220.0000
+red_brick_offset_out=8.0000
+red_brick_offset_back=10.0000
+red_brick_slowdown_ms=333
+red_brick_out_ms=1167
+red_brick_past_ms=667
+red_brick_back_ms=833
+red_brick_recover_ms=500
+
+# ===== 4. 圆环退出角度 =====
+huandao_l_state5_exit_yaw=65.0000
+huandao_r_state5_exit_yaw=-55.0000
+
+# ===== 5. 左右轮速度环与电机保护 =====
+# 左轮 FF + PI
+speed_kf_l=9.4500
+speed_kp_l=55.0000
+speed_ki_l=0.0350
+
+# 右轮：原 14.2/48/0.07 约 2× 左轮 → 发硬发烫；收到接近左轮、略偏硬
+speed_kf_r=9.9000
+speed_kp_r=60.0000
+speed_ki_r=0.0400
+
+# 积分与输出保护
+speed_max_i=1500.0000
+# 电机保护硬上限：200 档欠速时禁止速度环长期顶到驱动满量程 5000。
+# 3000 牺牲追速能力，换取保守的热保护；无电流/温度传感器，仍需人工检查。
+speed_max_out=3000.0000
+speed_max_error=2000.0000
+
+# ===== 6. 中线方向环 =====
+middle_kp=1.49
+middle_kd=0.0000
+middle_ki=0.0000
+middle_max_out=140.0000
+middle_ref_slew=0.0000
+middle_tpm_weight=0.0001
+
+# ===== 7. 图像方向环与识别阈值 =====
+image_kp_scale=1.4000
+image_kd=2.3000
+threshold_static=45
+small_err=15
+picture_err=30
+debug_rgb_r_min=70
+debug_rgb_rb_diff=15
+debug_rgb_rg_diff=15
+camera_exposure=-1
+
+# ===== 8. 里程计与车体几何标定 =====
+count_per_meter=20820.0000
+count_per_meter_l=20640.0000
+count_per_meter_r=21000.0000
+track_width_m=0.1500
+
+# ===== 9. IMU / 陀螺仪标定 =====
+c_gyro=20.3062
