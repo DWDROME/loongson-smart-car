@@ -38,6 +38,14 @@ licenses/             第三方组件许可证副本
 
 `project/user/build.sh` 为原工程脚本，会清理 `project/out` 并向配置的车端上传程序与模型；运行前应先检查脚本中的环境、地址和目标设备。`project/user/tools/params_config.local.txt` 为提供的参数快照，实际使用需按车辆和场地重新标定。
 
+## 模型迁移与部署
+
+交接文档记录了目标板分类模型的迁移路径：使用车端相机采集的数据训练 PyTorch 模型，导出 ONNX，再转换为 NCNN 的 `.param` / `.bin`，最后在 LS2K0300 上接入并验证。导出和转换时应逐步核对输入形状与推理输出。
+
+原工程的模型接口采用 `1×3×64×64` 输入和三类输出（`supplies`、`vehicle`、`weapon`）。车端从原图截取 80×80 BGR 区域，缩放至 64×64，再转 RGB 并按模型约定归一化。更换模型时，须同步模型接口、`image.cpp` 的裁剪位置、`ncnn_model_smoke` 的参考结果，以及部署脚本中的模型文件配置。
+
+仓库公开了[数据整理脚本](project/user/tools/prepare_stele_dataset.py)、[板端模型自检](project/user/tools/ncnn_model_smoke.cpp)和[数据集评估入口](project/user/tools/ncnn_dataset_eval.cpp)。上述数据整理脚本针对官方六类数据，交接文档建议另用车端相机采集适合现场的数据；训练与格式转换脚本、模型文件以及所需厂商封装未随本仓库发布，板端验证须先补齐依赖。完整思路参见[交接文档第 8 节](https://feishu.doubao.com/docx/PInzdUMJloZlzaxRwN5cNY3Xn6g)。
+
 ## 交接与当前状态
 
 [走马观碑交接文档](https://feishu.doubao.com/docx/PInzdUMJloZlzaxRwN5cNY3Xn6g)介绍了硬件、视觉、控制和调车流程。该文档描述了后续参数快照，具体行为以本仓库代码及实际运行配置为准。
